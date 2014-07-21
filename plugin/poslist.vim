@@ -27,10 +27,10 @@ let s:listMaxLen = 100
 let s:posList = []
 
 function! s:AddToList()
-    call add(s:posList, [bufnr("%"), expand("%"), getpos(".")])
+    call insert(s:posList, [bufnr("%"), expand("%"), getpos(".")], 0)
     let l:len = len(s:posList)
     if l:len > s:listMaxLen
-        let s:posList = s:posList[1:l:len]
+        call remove(s:posList, s:listMaxLen)
     endif
 endfunction
 
