@@ -26,7 +26,7 @@
 let s:listMaxLen = 100
 let s:posList = []
 
-function! s:addToList()
+function! s:AddToList()
     call add(s:posList, [bufnr("%"), expand("%"), getpos(".")])
     let l:len = len(s:posList)
     if l:len > s:listMaxLen
@@ -44,5 +44,5 @@ function! s:ShowList()
     cope
 endfunction
 
-noremap <silent> <Plug>PosListAdd :call <SID>addToList()<CR>
-noremap <silent> <Plug>PosListShow :call <SID>ShowList()<CR>
+command! -nargs=0 PosListAdd :call <SID>AddToList()
+command! -nargs=0 PosListShow :call <SID>ShowList()
