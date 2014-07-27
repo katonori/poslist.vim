@@ -23,6 +23,11 @@
 " ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 " DAMAGE.
 
+if exists("g:loaded_poslist")
+    finish
+endif
+let g:loaded_poslist = 1
+
 let s:listMaxLen = 100
 let s:posList = []
 
@@ -41,7 +46,7 @@ function! s:ShowList()
         call add(l:resList, l:pos[1] . "|" . l:pos[2][1] . "|" . l:pos[2][2] . "|" . getbufline(l:pos[0], l:pos[2][1], l:pos[2][1])[0])
     endfor
     cexpr l:resList
-    cope
+    cwin
 endfunction
 
 command! -nargs=0 PosListAdd :call <SID>AddToList()
