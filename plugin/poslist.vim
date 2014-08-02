@@ -32,7 +32,7 @@ let s:listMaxLen = 100
 let s:posList = []
 
 function! s:AddToList()
-    call insert(s:posList, [bufnr("%"), expand("%"), getpos(".")], 0)
+    call insert(s:posList, [bufnr("%"), expand("%:p"), getpos(".")], 0)
     let l:len = len(s:posList)
     if l:len > s:listMaxLen
         call remove(s:posList, s:listMaxLen)
@@ -43,10 +43,14 @@ function! s:ShowList()
     let &errorformat="%f|%l|%c|%m"
     let l:resList = []
     for l:pos in s:posList
-        call add(l:resList, l:pos[1] . "|" . l:pos[2][1] . "|" . l:pos[2][2] . "|" . getbufline(l:pos[0], l:pos[2][1], l:pos[2][1])[0])
+        let l:filename = l:pos[1]
+        let l:lineNo = l:pos[2][1]
+        let l:colNo = l:pos[2][2]
+        let l:lines = readfile(l:filename)
+        call add(l:resList, l:filename . "|" . l:lineNo . "|" . l:colNo  . "|" . l:lines[l:lineNo-1])
     endfor
     cexpr l:resList
-    cwin
+    copen
 endfunction
 
 command! -nargs=0 PosListAdd :call <SID>AddToList()
