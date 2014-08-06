@@ -44,14 +44,21 @@ function! s:ShowList()
     let l:resList = []
     for l:pos in s:posList
         let l:filename = l:pos[1]
-        let l:lineNo = l:pos[2][1]
-        let l:colNo = l:pos[2][2]
-        let l:lines = readfile(l:filename)
-        call add(l:resList, l:filename . "|" . l:lineNo . "|" . l:colNo  . "|" . l:lines[l:lineNo-1])
+        if l:filename != ""
+            let l:lineNo = l:pos[2][1]
+            let l:colNo = l:pos[2][2]
+            let l:lines = readfile(l:filename)
+            call add(l:resList, l:filename . "|" . l:lineNo . "|" . l:colNo  . "|" . l:lines[l:lineNo-1])
+        endif
     endfor
     cexpr l:resList
     copen
 endfunction
 
+function! s:DebugDump()
+    echo s:posList
+endfunction
+
 command! -nargs=0 PosListAdd :call <SID>AddToList()
 command! -nargs=0 PosListShow :call <SID>ShowList()
+command! -nargs=0 PosListDump :call <SID>DebugDump()
